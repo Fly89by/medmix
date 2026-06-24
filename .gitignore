@@ -58,3 +58,4 @@ infrastructure/tunnel_out.txt
 # OS
 *.tmp
 *.temp
+apps/backend/.env
