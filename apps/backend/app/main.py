@@ -1,3 +1,4 @@
+import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,11 +16,17 @@ from app.api.tasks import router as tasks_router
 from app.api.imports import router as imports_router
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
+async def _create_tables():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Create tables in background so server starts immediately for healthcheck
+    create_task = asyncio.create_task(_create_tables())
     yield
+    create_task.cancel()
     await engine.dispose()
 
 
