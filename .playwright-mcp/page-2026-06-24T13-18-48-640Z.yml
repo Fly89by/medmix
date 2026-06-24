@@ -1,0 +1,65 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "MED.MIX" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - img [ref=e6]
+      - generic [ref=e9]: MED.MIX
+    - navigation [ref=e10]:
+      - link "لوحة التحكم" [ref=e11] [cursor=pointer]:
+        - /url: /
+        - img [ref=e12]
+        - text: لوحة التحكم
+      - link "إدارة العملاء" [ref=e17] [cursor=pointer]:
+        - /url: /crm
+        - img [ref=e18]
+        - text: إدارة العملاء
+      - link "العملاء المحتملين" [ref=e22] [cursor=pointer]:
+        - /url: /leads
+        - img [ref=e23]
+        - text: العملاء المحتملين
+      - link "عروض الأسعار" [ref=e27] [cursor=pointer]:
+        - /url: /quotes
+        - img [ref=e28]
+        - text: عروض الأسعار
+      - link "التحليلات" [ref=e31] [cursor=pointer]:
+        - /url: /analytics
+        - img [ref=e32]
+        - text: التحليلات
+      - link "المساعد الذكي" [ref=e34] [cursor=pointer]:
+        - /url: /assistant
+        - img [ref=e35]
+        - text: المساعد الذكي
+      - link "قاعدة المعرفة" [ref=e38] [cursor=pointer]:
+        - /url: /knowledge
+        - img [ref=e39]
+        - text: قاعدة المعرفة
+      - link "المهام" [ref=e41] [cursor=pointer]:
+        - /url: /tasks
+        - img [ref=e42]
+        - text: المهام
+    - button "تسجيل الخروج" [ref=e46] [cursor=pointer]:
+      - img [ref=e47]
+      - text: تسجيل الخروج
+  - generic [ref=e50]:
+    - banner [ref=e51]:
+      - img [ref=e52]
+    - main [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - heading "إدارة العملاء" [level=1] [ref=e57]
+          - paragraph [ref=e58]: إدارة الشركات وجهات الاتصال والمشاريع
+        - generic [ref=e59]:
+          - button "شركات" [ref=e60] [cursor=pointer]
+          - button "جهات اتصال" [ref=e61] [cursor=pointer]
+          - button "مشاريع" [ref=e62] [cursor=pointer]
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - heading "الشركات" [level=3] [ref=e66]
+              - button "إضافة" [ref=e67] [cursor=pointer]:
+                - img [ref=e68]
+                - text: إضافة
+            - generic [ref=e69]:
+              - img [ref=e70]
+              - textbox "بحث..." [ref=e73]
+          - paragraph [ref=e75]: تحميل...

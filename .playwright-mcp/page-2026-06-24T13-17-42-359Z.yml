@@ -1,0 +1,152 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e66] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e67]:
+      - img [ref=e68]
+    - generic [ref=e71]:
+      - button "Open issues overlay" [ref=e72]:
+        - generic [ref=e73]:
+          - generic [ref=e74]: "0"
+          - generic [ref=e75]: "1"
+        - generic [ref=e76]: Issue
+      - button "Collapse issues badge" [ref=e77]:
+        - img [ref=e78]
+  - alert [ref=e80]
+  - generic [ref=e98]:
+    - generic [ref=e99]:
+      - generic [ref=e100]:
+        - link "MED.MIX" [ref=e101] [cursor=pointer]:
+          - /url: /
+          - img [ref=e102]
+          - generic [ref=e105]: MED.MIX
+        - button [ref=e106] [cursor=pointer]:
+          - img [ref=e107]
+      - navigation [ref=e110]:
+        - link "لوحة التحكم" [ref=e111] [cursor=pointer]:
+          - /url: /
+          - img [ref=e112]
+          - text: لوحة التحكم
+        - link "إدارة العملاء" [ref=e117] [cursor=pointer]:
+          - /url: /crm
+          - img [ref=e118]
+          - text: إدارة العملاء
+        - link "العملاء المحتملين" [ref=e122] [cursor=pointer]:
+          - /url: /leads
+          - img [ref=e123]
+          - text: العملاء المحتملين
+        - link "عروض الأسعار" [ref=e127] [cursor=pointer]:
+          - /url: /quotes
+          - img [ref=e128]
+          - text: عروض الأسعار
+        - link "التحليلات" [ref=e131] [cursor=pointer]:
+          - /url: /analytics
+          - img [ref=e132]
+          - text: التحليلات
+        - link "المساعد الذكي" [ref=e134] [cursor=pointer]:
+          - /url: /assistant
+          - img [ref=e135]
+          - text: المساعد الذكي
+        - link "قاعدة المعرفة" [ref=e138] [cursor=pointer]:
+          - /url: /knowledge
+          - img [ref=e139]
+          - text: قاعدة المعرفة
+        - link "المهام" [ref=e141] [cursor=pointer]:
+          - /url: /tasks
+          - img [ref=e142]
+          - text: المهام
+      - generic [ref=e145]:
+        - generic [ref=e146]:
+          - paragraph [ref=e147]: Admin User
+          - paragraph [ref=e148]: admin@medmix.com
+        - button "تسجيل الخروج" [ref=e149] [cursor=pointer]:
+          - img [ref=e150]
+          - text: تسجيل الخروج
+    - generic [ref=e153]:
+      - banner [ref=e154]:
+        - button [ref=e155] [cursor=pointer]:
+          - img [ref=e156]
+      - main [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - heading "لوحة التحكم" [level=1] [ref=e160]
+            - paragraph [ref=e161]: نظرة عامة على نظام إدارة المبيعات
+          - generic [ref=e162]:
+            - generic [ref=e164]:
+              - img [ref=e166]
+              - generic [ref=e170]:
+                - paragraph [ref=e171]: إجمالي الشركات
+                - paragraph [ref=e172]: "8"
+                - paragraph [ref=e173]:
+                  - img [ref=e174]
+                  - text: 8 شركة
+            - generic [ref=e177]:
+              - img [ref=e179]
+              - generic [ref=e184]:
+                - paragraph [ref=e185]: جهات الاتصال
+                - paragraph [ref=e186]: "3"
+                - paragraph [ref=e187]:
+                  - img [ref=e188]
+                  - text: 3 جهة اتصال
+            - generic [ref=e191]:
+              - img [ref=e193]
+              - generic [ref=e197]:
+                - paragraph [ref=e198]: العملاء المحتملين النشطين
+                - paragraph [ref=e199]: "3"
+                - paragraph [ref=e200]:
+                  - img [ref=e201]
+                  - text: من أصل 4 إجمالي
+            - generic [ref=e204]:
+              - img [ref=e206]
+              - generic [ref=e209]:
+                - paragraph [ref=e210]: عروض الأسعار هذا الشهر
+                - paragraph [ref=e211]: "3"
+                - paragraph [ref=e212]:
+                  - img [ref=e213]
+                  - text: عرض سعر هذا الشهر
+          - generic [ref=e215]:
+            - heading "العملاء المتوقعون حسب الحالة" [level=3] [ref=e217]
+            - generic [ref=e219]:
+              - generic [ref=e220]:
+                - generic [ref=e221]: مؤهل
+                - generic [ref=e222]: "1"
+              - generic [ref=e223]:
+                - generic [ref=e224]: تم البيع
+                - generic [ref=e225]: "1"
+              - generic [ref=e226]:
+                - generic [ref=e227]: تم الاتصال
+                - generic [ref=e228]: "1"
+              - generic [ref=e229]:
+                - generic [ref=e230]: جديد
+                - generic [ref=e231]: "1"
+          - generic [ref=e232]:
+            - heading "آخر النشاطات" [level=3] [ref=e234]
+            - generic [ref=e236]:
+              - generic [ref=e237]:
+                - generic [ref=e238]: "updated quote #3"
+                - generic [ref=e239]: منذ 7 دقيقة
+              - generic [ref=e240]:
+                - generic [ref=e241]: "Quote Q-0003 for Test Customer: 15,000.00 SAR"
+                - generic [ref=e242]: منذ 7 دقيقة
+              - generic [ref=e243]:
+                - generic [ref=e244]: Lead Lead Co f4a607 updated
+                - generic [ref=e245]: منذ 7 دقيقة
+              - generic [ref=e246]:
+                - generic [ref=e247]: Lead Lead Co f4a607 created with score 20
+                - generic [ref=e248]: منذ 7 دقيقة
+              - generic [ref=e249]:
+                - generic [ref=e250]: "deleted project #4"
+                - generic [ref=e251]: منذ 7 دقيقة
+              - generic [ref=e252]:
+                - generic [ref=e253]: "updated project #4"
+                - generic [ref=e254]: منذ 7 دقيقة
+              - generic [ref=e255]:
+                - generic [ref=e256]: "created project #4"
+                - generic [ref=e257]: منذ 7 دقيقة
+              - generic [ref=e258]:
+                - generic [ref=e259]: "created company #9"
+                - generic [ref=e260]: منذ 7 دقيقة
+              - generic [ref=e261]:
+                - generic [ref=e262]: "deleted contact #4"
+                - generic [ref=e263]: منذ 7 دقيقة
+              - generic [ref=e264]:
+                - generic [ref=e265]: "updated contact #4"
+                - generic [ref=e266]: منذ 7 دقيقة

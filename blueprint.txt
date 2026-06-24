@@ -1,0 +1,520 @@
+# PROJECT NAME
+
+MED.MIX OS
+
+# COMPANY
+
+Al Madinah Ready Mix (MED.MIX)
+
+# GOAL
+
+Build a complete AI-powered CRM and Sales Management Platform for MED.MIX.
+
+The platform must:
+
+* Manage leads
+* Manage companies
+* Manage contacts
+* Manage projects
+* Generate quotations
+* Automate follow-ups
+* Provide analytics
+* Provide AI assistance
+* Store company knowledge
+
+The goal is to reduce manual sales work by at least 80%.
+
+---
+
+# TECH STACK
+
+Frontend:
+
+* Next.js 15
+* TypeScript
+* Tailwind CSS
+* Shadcn UI
+
+Backend:
+
+* FastAPI
+* Python 3.12
+
+Database:
+
+* PostgreSQL
+
+Queue:
+
+* Redis
+
+Storage:
+
+* MinIO
+
+AI:
+
+* OpenAI API
+
+Deployment:
+
+* Docker
+
+---
+
+# SYSTEM MODULES
+
+1. Dashboard
+2. CRM
+3. Lead Discovery
+4. Lead Scoring
+5. Quote Generator
+6. Follow-Up Automation
+7. AI Assistant
+8. Analytics
+9. Knowledge Base
+
+---
+
+# FOLDER STRUCTURE
+
+/apps
+
+/frontend
+
+/backend
+
+/modules
+
+/dashboard
+
+/crm
+
+/leads
+
+/quotes
+
+/followups
+
+/analytics
+
+/assistant
+
+/knowledge
+
+/shared
+
+/database
+
+/docs
+
+---
+
+# DASHBOARD MODULE
+
+Features:
+
+* Total Leads
+* New Leads Today
+* Qualified Leads
+* Open Quotes
+* Accepted Quotes
+* Revenue
+* Conversion Rate
+* Follow-Up Tasks
+
+Widgets:
+
+* Revenue Card
+* Lead Card
+* Quote Card
+* Conversion Card
+* Sales Funnel
+* Monthly Revenue Chart
+
+---
+
+# CRM MODULE
+
+Entities:
+
+Companies
+
+Contacts
+
+Projects
+
+Orders
+
+Activities
+
+Company Fields:
+
+id
+name
+industry
+city
+phone
+email
+website
+status
+created_at
+
+Contact Fields:
+
+id
+company_id
+name
+phone
+email
+position
+
+Project Fields:
+
+id
+company_id
+project_name
+city
+status
+budget
+
+---
+
+# LEAD DISCOVERY MODULE
+
+Purpose:
+
+Discover potential customers.
+
+Lead Sources:
+
+* Construction Companies
+* Real Estate Developers
+* Engineering Offices
+* Building Material Buyers
+
+Lead Fields:
+
+id
+company_name
+industry
+city
+phone
+email
+website
+source
+status
+score
+
+Lead Status:
+
+NEW
+QUALIFIED
+CONTACTED
+NEGOTIATING
+WON
+LOST
+
+---
+
+# LEAD SCORING MODULE
+
+AI must score every lead.
+
+Score Range:
+
+0-100
+
+Lead Categories:
+
+90-100 = HOT
+
+70-89 = WARM
+
+0-69 = COLD
+
+Scoring Factors:
+
+* Industry
+* Company Size
+* Project Size
+* City
+* Historical Value
+
+---
+
+# QUOTE GENERATOR MODULE
+
+Input:
+
+Customer Name
+Product
+Quantity
+City
+
+Output:
+
+Professional PDF Quote
+
+Quote Fields:
+
+id
+quote_number
+customer_name
+product
+quantity
+unit_price
+total_price
+status
+
+Quote Status:
+
+DRAFT
+SENT
+ACCEPTED
+REJECTED
+EXPIRED
+
+---
+
+# FOLLOW-UP AUTOMATION
+
+Purpose:
+
+Never lose a customer.
+
+Workflow:
+
+Quote Sent
+
+↓
+
+3 Days
+
+↓
+
+Follow-Up Reminder
+
+↓
+
+7 Days
+
+↓
+
+Second Reminder
+
+↓
+
+14 Days
+
+↓
+
+Create Sales Task
+
+Task Fields:
+
+id
+lead_id
+assigned_to
+due_date
+status
+
+---
+
+# AI ASSISTANT
+
+Knowledge:
+
+Products
+Pricing
+Coverage Areas
+Delivery Policies
+Company Information
+
+Functions:
+
+Answer Questions
+
+Summarize Leads
+
+Generate Sales Messages
+
+Generate Follow-Up Messages
+
+Generate Quotations
+
+---
+
+# KNOWLEDGE BASE
+
+Categories:
+
+Products
+
+Ready Mix Concrete
+
+Block
+
+Cement
+
+Steel
+
+Coverage Areas
+
+Pricing Rules
+
+Delivery Rules
+
+Payment Policies
+
+---
+
+# ANALYTICS MODULE
+
+KPIs:
+
+Total Leads
+
+Qualified Leads
+
+Conversion Rate
+
+Revenue
+
+Average Deal Size
+
+Quote Acceptance Rate
+
+Top Cities
+
+Top Products
+
+Best Customers
+
+Charts:
+
+Revenue Trend
+
+Lead Funnel
+
+Lead Sources
+
+Product Performance
+
+City Performance
+
+---
+
+# DATABASE TABLES
+
+users
+
+companies
+
+contacts
+
+projects
+
+leads
+
+quotes
+
+orders
+
+activities
+
+tasks
+
+knowledge_articles
+
+analytics_events
+
+---
+
+# API ROUTES
+
+/api/auth
+
+/api/dashboard
+
+/api/companies
+
+/api/contacts
+
+/api/projects
+
+/api/leads
+
+/api/quotes
+
+/api/tasks
+
+/api/analytics
+
+/api/assistant
+
+/api/knowledge
+
+---
+
+# USER ROLES
+
+Admin
+
+Sales Manager
+
+Sales Agent
+
+Operations
+
+Viewer
+
+---
+
+# SECURITY
+
+JWT Authentication
+
+Role Based Access Control
+
+Audit Logs
+
+Encrypted Secrets
+
+HTTPS Only
+
+---
+
+# MVP PHASE
+
+Dashboard
+
+CRM
+
+Leads
+
+Lead Scoring
+
+Quote Generator
+
+Follow-Up Automation
+
+Analytics
+
+Knowledge Base
+
+AI Assistant
+
+---
+
+# SUCCESS METRICS
+
+Reduce manual sales work by 80%
+
+Generate quotes in less than 60 seconds
+
+Never miss follow-up tasks
+
+Track every lead from first contact to closed deal
+
+Provide a single dashboard for the entire sales process
