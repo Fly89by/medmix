@@ -63,55 +63,114 @@ def _generate_simulated_businesses(query: str, location: str, count: int = 10) -
     return results
 
 
-class GoogleMapsSearchRequest(BaseModel):
+class SearchRequest(BaseModel):
     query: str
     location: Optional[str] = None
     max_results: Optional[int] = 10
 
 
-@router.post("/api/leads/import/google-maps")
-async def search_google_maps(
-    req: GoogleMapsSearchRequest,
+OSM_QUERY_TEMPLATE = """
+[out:json][timeout:15];
+area["name:ar"="{city}"]["admin_level"="8"][boundary="administrative"];
+(
+  nwr[~"(shop|office|amenity|craft|healthcare)"~"{query}",i](area);
+  nwr["name"~"{query}",i](area);
+);
+out center {limit};
+"""
+
+
+async def _search_openstreetmap(query: str, location: str, limit: int) -> list[dict]:
+    import httpx
+    city = location or "الرياض"
+    overpass_query = OSM_QUERY_TEMPLATE.format(city=city, query=query, limit=limit)
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.post(
+                "https://overpass-api.de/api/interpreter",
+                data={"data": overpass_query},
+                timeout=20,
+            )
+            data = resp.json()
+    except Exception:
+        return []
+
+    results = []
+    for element in data.get("elements", []):
+        tags = element.get("tags", {})
+        name = tags.get("name", tags.get("name:ar", "")).strip()
+        if not name:
+            continue
+        phone = tags.get("phone", "") or tags.get("contact:phone", "")
+        email = tags.get("email", "") or tags.get("contact:email", "")
+        website = tags.get("website", "") or tags.get("contact:website", "")
+        city_tag = tags.get("addr:city", tags.get("city", location or ""))
+        street = tags.get("addr:street", "")
+        results.append({
+            "company_name": name,
+            "industry": query,
+            "city": city_tag or location or "",
+            "phone": phone,
+            "email": email,
+            "website": website,
+            "address": f"{street}, {city_tag}".strip(", "),
+            "source": "openstreetmap",
+        })
+        if len(results) >= limit:
+            break
+    return results
+
+
+async def _search_google_maps(query: str, location: str, limit: int) -> list[dict]:
+    import httpx
+    params = {
+        "query": f"{query} {location or ''}",
+        "key": settings.google_maps_api_key,
+        "language": "ar",
+    }
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(
+            "https://maps.googleapis.com/maps/api/place/textsearch/json",
+            params=params,
+            timeout=15,
+        )
+        data = resp.json()
+        if data.get("status") != "OK":
+            return []
+        results = []
+        for place in data.get("results", [])[:limit]:
+            results.append({
+                "place_id": place.get("place_id"),
+                "company_name": place.get("name"),
+                "industry": query,
+                "city": location or "",
+                "phone": "",
+                "email": "",
+                "website": "",
+                "address": place.get("formatted_address", ""),
+                "rating": place.get("rating"),
+                "source": "google_maps",
+            })
+        return results
+
+
+@router.post("/api/leads/import/search")
+async def search_businesses(
+    req: SearchRequest,
     current_user: User = Depends(get_current_user),
 ):
-    """Search Google Maps Places for businesses. Uses real API if configured, otherwise simulation."""
+    """Search for businesses using OpenStreetMap (free) or Google Maps (if key configured)."""
     if not req.query.strip():
         raise HTTPException(400, "Query is required")
 
     if settings.google_maps_api_key:
-        try:
-            import httpx
-            params = {
-                "query": f"{req.query} {req.location or ''}",
-                "key": settings.google_maps_api_key,
-                "language": "ar",
-            }
-            async with httpx.AsyncClient() as client:
-                resp = await client.get(
-                    "https://maps.googleapis.com/maps/api/place/textsearch/json",
-                    params=params,
-                    timeout=15,
-                )
-                data = resp.json()
-                if data.get("status") != "OK":
-                    raise HTTPException(502, f"Google Maps API error: {data.get('status')}")
-                results = []
-                for place in data.get("results", [])[:req.max_results]:
-                    results.append({
-                        "place_id": place.get("place_id"),
-                        "company_name": place.get("name"),
-                        "industry": req.query,
-                        "city": req.location or "",
-                        "phone": "",
-                        "email": "",
-                        "website": "",
-                        "address": place.get("formatted_address", ""),
-                        "rating": place.get("rating"),
-                        "source": "google_maps",
-                    })
-                return {"results": results, "total": len(results), "mode": "live"}
-        except ImportError:
-            pass
+        results = await _search_google_maps(req.query, req.location or "", req.max_results)
+        if results:
+            return {"results": results, "total": len(results), "mode": "google_maps"}
+
+    results = await _search_openstreetmap(req.query, req.location or "", req.max_results)
+    if results:
+        return {"results": results, "total": len(results), "mode": "openstreetmap"}
 
     simulated = _generate_simulated_businesses(req.query, req.location or "", req.max_results)
     return {"results": simulated, "total": len(simulated), "mode": "simulation"}

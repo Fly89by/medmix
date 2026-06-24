@@ -1,9 +1,10 @@
 import asyncio
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.database import engine, Base
+from app.services.realtime import connect as ws_connect, disconnect as ws_disconnect, broadcast as ws_broadcast
 from app.api.auth import router as auth_router
 from app.api.crm import router as crm_router
 from app.api.leads import router as leads_router
@@ -38,7 +39,10 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "https://frontend-steel-three-58.vercel.app",
+    ],
     allow_origin_regex="https://.*\\.vercel\\.app",
     allow_credentials=True,
     allow_methods=["*"],
@@ -55,6 +59,16 @@ app.include_router(assistant_router)
 app.include_router(knowledge_router)
 app.include_router(tasks_router)
 app.include_router(imports_router)
+
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await ws_connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        ws_disconnect(websocket)
 
 
 @app.get("/api/health")

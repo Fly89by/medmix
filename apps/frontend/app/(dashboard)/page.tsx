@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, Users, Target, FileText, TrendingUp, TrendingDown, Activity, Clock, ArrowLeft, Sparkles, UserPlus, DollarSign } from "lucide-react";
 import { api } from '@/lib/api';
 import { getMe, type User } from '@/lib/auth';
+import { useRealtime } from '@/lib/realtime';
 
 interface DashboardData {
   companies_total: number;
@@ -51,13 +52,19 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    getMe().then(setUser).catch(() => {});
+  const refresh = useCallback(() => {
     api.get<DashboardData>('/dashboard')
       .then(setData)
-      .catch(console.error)
-      .finally(() => setLoading(false));
+      .catch(console.error);
   }, []);
+
+  useRealtime(refresh);
+
+  useEffect(() => {
+    getMe().then(setUser).catch(() => {});
+    refresh();
+    setLoading(false);
+  }, [refresh]);
 
   if (loading) {
     return (

@@ -59,3 +59,4 @@ infrastructure/tunnel_out.txt
 *.tmp
 *.temp
 apps/backend/.env
+.vercel

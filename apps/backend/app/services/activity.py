@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.activity import Activity
+from app.services.realtime import broadcast
 
 
 async def log_activity(
@@ -18,3 +19,8 @@ async def log_activity(
         created_by=created_by,
     )
     db.add(activity)
+    await broadcast("data_changed", {
+        "entity_type": entity_type,
+        "entity_id": entity_id,
+        "action": action,
+    })
