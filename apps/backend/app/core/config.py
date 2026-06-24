@@ -7,8 +7,17 @@ class Settings(BaseSettings):
     debug: bool = True
     secret_key: str = "change-this-to-a-random-secret-key"
 
-    # Database
+    # Database (accept postgresql:// or postgresql+asyncpg://)
     database_url: str = "postgresql+asyncpg://medmix:medmix_pass@localhost:5432/medmix_db"
+
+    @property
+    def async_database_url(self) -> str:
+        url = self.database_url
+        for prefix in ("postgresql://", "postgres://"):
+            if url.startswith(prefix):
+                suffix = url[len(prefix):]
+                return f"postgresql+asyncpg://{suffix}"
+        return url
 
     # JWT
     jwt_secret_key: str = "change-this-to-a-random-jwt-secret"
