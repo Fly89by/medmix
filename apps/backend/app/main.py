@@ -15,6 +15,7 @@ from app.api.assistant import router as assistant_router
 from app.api.knowledge import router as knowledge_router
 from app.api.tasks import router as tasks_router
 from app.api.imports import router as imports_router
+from app.api.files import router as files_router
 
 
 async def _create_tables():
@@ -59,6 +60,7 @@ app.include_router(assistant_router)
 app.include_router(knowledge_router)
 app.include_router(tasks_router)
 app.include_router(imports_router)
+app.include_router(files_router)
 
 
 @app.websocket("/ws")

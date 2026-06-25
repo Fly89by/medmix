@@ -54,6 +54,10 @@ infrastructure/tunnel_out.txt
 
 # Railway
 .railway/
+railway-login.yml
+
+# Playwright MCP artifacts
+.playwright-mcp/
 
 # OS
 *.tmp

@@ -27,7 +27,10 @@ class Settings(BaseSettings):
     # Redis
     redis_url: str = "redis://localhost:6379/0"
 
-    # MinIO
+    # File storage (local filesystem, use Railway Volume in production)
+    upload_dir: str = "/app/uploads"
+
+    # MinIO (legacy, kept for compatibility)
     minio_endpoint: str = "localhost:9000"
     minio_access_key: str = "medmix"
     minio_secret_key: str = "medmix_secret"
