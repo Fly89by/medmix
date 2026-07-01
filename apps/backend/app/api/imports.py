@@ -69,28 +69,14 @@ class SearchRequest(BaseModel):
     max_results: Optional[int] = 10
 
 
-OSM_QUERY_TEMPLATE = """
-[out:json][timeout:15];
-area["name:ar"="{city}"]["admin_level"="8"][boundary="administrative"];
-(
-  nwr[~"(shop|office|amenity|craft|healthcare)"~"{query}",i](area);
-  nwr["name"~"{query}",i](area);
-);
-out center {limit};
-"""
-
-
 async def _search_openstreetmap(query: str, location: str, limit: int) -> list[dict]:
     import httpx
-    city = location or "Riyadh"
-
-    # Try with area-based query first (more precise)
+    # Build Overpass query - search within Saudi Arabia for matching amenities
     overpass_query = f"""
-    [out:json][timeout:15];
-    area["name"~"{city}",i];
+    [out:json][timeout:10];
+    area[admin_level=4][name="Saudi Arabia"];
     (
-      nwr[~"(shop|office|amenity|craft|healthcare)"~"{query}",i](area);
-      nwr["name"~"{query}",i](area);
+      nwr(area)[~"(shop|office|amenity|craft|healthcare)"~"{query}",i];
     );
     out center {limit};
     """
@@ -99,7 +85,7 @@ async def _search_openstreetmap(query: str, location: str, limit: int) -> list[d
             resp = await client.post(
                 "https://overpass-api.de/api/interpreter",
                 data={"data": overpass_query},
-                timeout=20,
+                timeout=15,
             )
             data = resp.json()
     except Exception:
