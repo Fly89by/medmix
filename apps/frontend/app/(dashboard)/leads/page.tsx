@@ -95,7 +95,7 @@ export default function LeadsPage() {
     if (!searchQuery.trim()) return
     setSearching(true); setSearchResults([])
     try {
-      const res = await api.post<{ results: GoogleResult[]; total: number; mode: string }>('/leads/import/google-maps', { query: searchQuery, location: searchLocation || undefined, max_results: 12 })
+      const res = await api.post<{ results: GoogleResult[]; total: number; mode: string }>('/leads/import/search', { query: searchQuery, location: searchLocation || undefined, max_results: 12 })
       setSearchResults(res.results)
     } catch (e: any) { setError(e.message) } finally { setSearching(false) }
   }
@@ -162,7 +162,7 @@ export default function LeadsPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Button size="sm" onClick={openCreate}><Plus className="h-4 w-4" /> إضافة</Button>
-          <Button size="sm" variant="outline" onClick={openMaps}><MapPin className="h-4 w-4" /> بحث Google Maps</Button>
+          <Button size="sm" variant="outline" onClick={openMaps}><MapPin className="h-4 w-4" /> بحث عن عملاء</Button>
           <input ref={fileInputRef} type="file" accept=".csv" className="hidden" onChange={handleCsvFile} />
           <Button size="sm" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={csvImporting}>
             {csvImporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
@@ -192,7 +192,7 @@ export default function LeadsPage() {
             <div className="empty-state">
               <Building2 className="empty-state-icon" />
               <h3>لا توجد نتائج</h3>
-              <p>أضف عميلاً متوقعاً جديداً أو استخدم Google Maps للبحث</p>
+              <p>أضف عميلاً متوقعاً جديداً أو استخدم البحث للعثور على عملاء</p>
             </div>
           )}
           {!loading && !error && items.length > 0 && (
@@ -213,7 +213,7 @@ export default function LeadsPage() {
                       <td className="text-slate-500">{lead.city || '-'}</td>
                       <td className="text-slate-500 text-left" dir="ltr">{lead.phone || '-'}</td>
                       <td>{getScoreBadge(lead.score)}</td>
-                      <td><Badge variant="gray">{lead.source === 'google_maps' ? 'Google Maps' : lead.source === 'csv_import' ? 'CSV' : lead.source}</Badge></td>
+                      <td><Badge variant="gray">{lead.source === 'google_maps' ? 'Google Maps' : lead.source === 'openstreetmap' ? 'OpenStreetMap' : lead.source === 'csv_import' ? 'CSV' : lead.source === 'simulation' ? 'محاكاة' : lead.source}</Badge></td>
                       <td><Badge>{lead.status}</Badge></td>
                       <td>
                         <div className="flex items-center gap-1">
@@ -251,7 +251,7 @@ export default function LeadsPage() {
         <div className="modal-overlay" onClick={() => setMapsOpen(false)}>
           <div className="modal-content animate-scale-in max-w-2xl" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>بحث Google Maps</h2>
+              <h2>بحث عن عملاء محتملين</h2>
               <button type="button" onClick={() => setMapsOpen(false)} className="rounded-lg p-1.5 text-slate-400 hover:bg-gray-100 hover:text-slate-600"><X className="h-5 w-5" /></button>
             </div>
             <div className="p-6">
@@ -322,7 +322,7 @@ export default function LeadsPage() {
               {!searching && searchResults.length === 0 && !searchQuery && (
                 <div className="flex flex-col items-center py-8 text-slate-400">
                   <MapPin className="h-12 w-12 mb-2 opacity-50" />
-                  <p className="text-sm">ابحث عن شركات وعملاء باستخدام Google Maps</p>
+                  <p className="text-sm">ابحث عن شركات وعملاء محتملين</p>
                   <p className="text-xs mt-1">مثال: أدخل "مطاعم" و"الرياض" للبحث عن مطاعم في الرياض</p>
                 </div>
               )}

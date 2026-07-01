@@ -55,10 +55,10 @@ def _generate_simulated_businesses(query: str, location: str, count: int = 10) -
             "industry": industry,
             "city": city,
             "phone": phone,
-            "email": f"info@{domain}",
-            "website": f"https://www.{domain}",
-            "source": "google_maps",
-            "notes": f"تم استيرادها من بحث Google Maps - {query} في {city}",
+            "email": email,
+            "website": website,
+            "source": "simulation",
+            "notes": f"بحث: {query} في {city}",
         })
     return results
 
@@ -71,17 +71,17 @@ class SearchRequest(BaseModel):
 
 async def _search_openstreetmap(query: str, location: str, limit: int) -> list[dict]:
     import httpx
-    # Build Overpass query - search within Saudi Arabia for matching amenities
+    headers = {"User-Agent": "MED.MIX-OS/1.0 (CRM for Saudi businesses)"}
     overpass_query = f"""
     [out:json][timeout:10];
-    area[admin_level=4][name="Saudi Arabia"];
+    area[admin_level=2]["ISO3166-1"="SA"];
     (
       nwr(area)[~"(shop|office|amenity|craft|healthcare)"~"{query}",i];
     );
     out center {limit};
     """
     try:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(headers=headers) as client:
             resp = await client.post(
                 "https://overpass-api.de/api/interpreter",
                 data={"data": overpass_query},
@@ -89,6 +89,9 @@ async def _search_openstreetmap(query: str, location: str, limit: int) -> list[d
             )
             data = resp.json()
     except Exception:
+        return []
+
+    if "elements" not in data:
         return []
 
     results = []
@@ -192,10 +195,11 @@ async def bulk_import_leads(
         if not company_name:
             continue
 
+        lead_source = item.get("source", "search")
         score = calculate_lead_score(
             industry=item.get("industry"),
             city=item.get("city"),
-            source="google_maps",
+            source=lead_source,
         )
         lead = Lead(
             company_name=company_name,
@@ -204,7 +208,7 @@ async def bulk_import_leads(
             phone=item.get("phone"),
             email=item.get("email"),
             website=item.get("website"),
-            source="google_maps",
+            source=lead_source,
             notes=item.get("notes"),
             score=score,
         )
@@ -213,7 +217,7 @@ async def bulk_import_leads(
         await db.refresh(lead)
         await log_activity(
             db, "lead", lead.id, "imported",
-            description=f"Lead {company_name} imported via Google Maps",
+            description=f"Lead {company_name} imported via {lead_source}",
             created_by=current_user.id,
         )
         imported.append(lead)
