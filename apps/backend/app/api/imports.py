@@ -82,8 +82,18 @@ out center {limit};
 
 async def _search_openstreetmap(query: str, location: str, limit: int) -> list[dict]:
     import httpx
-    city = location or "الرياض"
-    overpass_query = OSM_QUERY_TEMPLATE.format(city=city, query=query, limit=limit)
+    city = location or "Riyadh"
+
+    # Try with area-based query first (more precise)
+    overpass_query = f"""
+    [out:json][timeout:15];
+    area["name"~"{city}",i];
+    (
+      nwr[~"(shop|office|amenity|craft|healthcare)"~"{query}",i](area);
+      nwr["name"~"{query}",i](area);
+    );
+    out center {limit};
+    """
     try:
         async with httpx.AsyncClient() as client:
             resp = await client.post(
