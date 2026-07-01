@@ -55,8 +55,8 @@ def _generate_simulated_businesses(query: str, location: str, count: int = 10) -
             "industry": industry,
             "city": city,
             "phone": phone,
-            "email": email,
-            "website": website,
+            "email": f"info@{domain}",
+            "website": f"https://www.{domain}",
             "source": "simulation",
             "notes": f"بحث: {query} في {city}",
         })
